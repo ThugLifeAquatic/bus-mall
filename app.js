@@ -61,17 +61,29 @@ function handleClick(event) {
         remEL.removeChild(remEL.firstChild);
       }
       if (totalClicks === 24) {
+        var remEL = document.getElementById('imgPick');
+        while (remEL.firstChild) {
+          remEL.removeChild(remEL.firstChild);
+        }
+        calcConversion();
+        picWheel.removeEventListener('click', handleClick);
         var secEl = document.createElement('section');
         secEl.id = 'results';
         var h2El = document.createElement('h2');
         h2El.textContent = 'Results';
         secEl.appendChild(h2El);
+        var ulEl = document.createElement('ul');
+        for (var i = 0; i < products.length; i++) {
+          var liEl = document.createElement('li');
+          liEl.textContent = products[i].clicks + ' votes for ' + products[i].name + '.';
+          ulEl.appendChild(liEl);
+        }
+        secEl.appendChild(ulEl);
         picWheel.appendChild(secEl);
-        picWheel.removeEventListener('click', handleClick);
       } else {
         render();
+        calcConversion();
       }
-      calcConversion();
     }
   }
 }
