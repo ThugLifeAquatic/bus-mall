@@ -10,16 +10,65 @@ var prodNew = [];
 //image container
 var picWheel = document.getElementById('imgPick');
 
-//product object
-function Product(name, path) {
-  this.name = name;
+//product constructor
+function Product(name, path) {  this.name = name;
   this.path = path;
   this.clicks = 0;
   this.views = 0;
   this.conversion = 0;
   products.push(this);
 }
-
+//generate valid images
+function getImage() {
+  prodNew = [];
+  while (prodNew.length < 3) {
+    var select = Math.floor(Math.random() * (products.length));
+    if (checkMatch(prodNew, products[select]) && checkMatch(prodLast, products[select])) {
+      prodNew.push(products[select]);
+      products[select].views++;
+    }
+  }
+  prodLast = prodNew;
+}
+//check array for matches
+function checkMatch(array, value) {
+  for (var i = 0; i < array.length; i++) {
+    if (value === array[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+//draw new images
+function render() {
+  getImage();
+  for (var i = 0; i < prodNew.length; i++) {
+    var imgEl = document.createElement('img');
+    imgEl.src = prodNew[i].path;
+    imgEl.id = prodNew[i].name;
+    picWheel.appendChild(imgEl);
+  }
+}
+//update products on click, wipe, re-render, and exit program
+function handleClick(event) {
+  for (var i = 0; i < prodNew.length; i++) {
+    if (event.target.id === prodNew[i].name) {
+      prodNew[i].clicks++;
+      totalClicks++;
+      wipe();
+    }
+  }
+  if (totalClicks === 25) {
+    wipe();
+    calcConversion();
+    drawresults();
+  } else {
+    wipe();
+    calcConversion();
+    render();
+  }
+}
+//calculate conversion rate
 function calcConversion() {
   for (var i = 0; i < products.length; i++) {
     if (products[i].views === 0) {
@@ -29,73 +78,90 @@ function calcConversion() {
     }
   }
 }
-
-function checkQ(array, value) {
-  for (var i = 0; i < array.length; i++) {
-    if (value === array[i]) {
-      return false;
-    }
+//wipe screen for redraw
+function wipe() {
+  var el = document.getElementById('imgPick');
+  while (el.firstChild) {
+    el.removeChild(el.firstChild);
   }
-  return true;
 }
-
-function getImage() {
-  prodNew = [];
-  while (prodNew.length < 3) {
-    var select = Math.floor(Math.random() * (products.length));
-    if (checkQ(prodNew, products[select]) && checkQ(prodLast, products[select])) {
-      prodNew.push(products[select]);
-      products[select].views++;
-    }
+//render results list
+function drawresults() {
+  picWheel.removeEventListener('click', handleClick);
+  var secEl = document.createElement('section');
+  secEl.id = 'results';
+  var h2El = document.createElement('h2');
+  h2El.textContent = 'Results';
+  secEl.appendChild(h2El);
+  var ulEl = document.createElement('ul');
+  for (var i = 0; i < products.length; i++) {
+    var liEl = document.createElement('li');
+    liEl.textContent = products[i].clicks + ' votes for ' + products[i].name + '.';
+    ulEl.appendChild(liEl);
   }
-  prodLast = prodNew;
+  secEl.appendChild(ulEl);
+  picWheel.appendChild(secEl);
+  itsAChartYall();
 }
-
-function handleClick(event) {
-  for (var i = 0; i < prodNew.length; i++) {
-    if (event.target.id === prodNew[i].name) {
-      prodNew[i].clicks++;
-      totalClicks++;
-      var remEL = document.getElementById('imgPick');
-      while (remEL.firstChild) {
-        remEL.removeChild(remEL.firstChild);
+//CHHHAAAAAAAAAAAARRRRRRRRRRTTT!
+function itsAChartYall() {
+  var ctx = document.getElementById("chart");
+  var chartL = [];
+  var chartD = [];
+  for (var i = 0; i < products.length; i++) {
+    chartL.push(products[i].name);
+    chartD.push(products[i].clicks);
+  }
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: chartL,
+      datasets: [{
+        label: '# of Clicks',
+        data: chartD,
+        backgroundColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)'
+        ],
+        borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
       }
-      if (totalClicks === 24) {
-        var remEL = document.getElementById('imgPick');
-        while (remEL.firstChild) {
-          remEL.removeChild(remEL.firstChild);
-        }
-        calcConversion();
-        picWheel.removeEventListener('click', handleClick);
-        var secEl = document.createElement('section');
-        secEl.id = 'results';
-        var h2El = document.createElement('h2');
-        h2El.textContent = 'Results';
-        secEl.appendChild(h2El);
-        var ulEl = document.createElement('ul');
-        for (var i = 0; i < products.length; i++) {
-          var liEl = document.createElement('li');
-          liEl.textContent = products[i].clicks + ' votes for ' + products[i].name + '.';
-          ulEl.appendChild(liEl);
-        }
-        secEl.appendChild(ulEl);
-        picWheel.appendChild(secEl);
-      } else {
-        render();
-        calcConversion();
-      }
     }
-  }
-}
-
-function render() {
-  getImage();
-  for (var i = 0; i < prodNew.length; i++) {
-    var imgEl = document.createElement('img');
-    imgEl.src = prodNew[i].path;
-    imgEl.id = prodNew[i].name;
-    picWheel.appendChild(imgEl);
-  }
+  });
 }
 
 new Product('bag', 'images/bag.jpg');
