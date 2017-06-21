@@ -63,10 +63,10 @@ function handleClick(event) {
     if (event.target.id === prodNew[i].name) {
       prodNew[i].clicks++;
       totalClicks++;
-      wipe();
     }
   }
   if (totalClicks === 25) {
+    wipe();
     calcConversion();
     buttonUp('LIST', drawresults);
     buttonUp('CHART', itsAChartYall);
