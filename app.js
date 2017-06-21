@@ -1,4 +1,5 @@
 'use strict';
+//partner--driving
 //total click counter
 var totalClicks = 0;
 //all products
