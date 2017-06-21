@@ -73,7 +73,7 @@ h2 {
 }
 
 #results {
-  background:#777;
+  background: #777;
   line-height: 25px;
   text-align: center;
   width: 480px;
@@ -92,13 +92,13 @@ h2 {
 }
 
 #results li {
-  font-size:120%;
+  font-size: 120%;
   font-weight: bold;
 }
 
-#chartResults #chart{
-  background:white;
-  width:900px;
+#chart {
+  background: white;
+  width: 900px;
   margin: 0 auto;
   padding: 10px;
   border-radius: 5px;

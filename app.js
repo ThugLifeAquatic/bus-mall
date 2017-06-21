@@ -10,8 +10,15 @@ var prodNew = [];
 //image container
 var picWheel = document.getElementById('imgPick');
 
+//hide chart section
+function aChartHide() {
+  var hide = document.getElementById('chartResults');
+  var chide = document.getElementById('chart');
+  hide.style.display = 'none';
+}
 //product constructor
-function Product(name, path) {  this.name = name;
+function Product(name, path) {
+  this.name = name;
   this.path = path;
   this.clicks = 0;
   this.views = 0;
@@ -41,6 +48,7 @@ function checkMatch(array, value) {
 }
 //draw new images
 function render() {
+  wipe();
   getImage();
   for (var i = 0; i < prodNew.length; i++) {
     var imgEl = document.createElement('img');
@@ -59,11 +67,11 @@ function handleClick(event) {
     }
   }
   if (totalClicks === 25) {
-    wipe();
     calcConversion();
-    drawresults();
+    buttonUp('LIST', drawresults);
+    buttonUp('CHART', itsAChartYall);
+    picWheel.removeEventListener('click', handleClick);
   } else {
-    wipe();
     calcConversion();
     render();
   }
@@ -80,13 +88,25 @@ function calcConversion() {
 }
 //wipe screen for redraw
 function wipe() {
-  var el = document.getElementById('imgPick');
-  while (el.firstChild) {
-    el.removeChild(el.firstChild);
+  while (imgPick.firstChild) {
+    imgPick.removeChild(imgPick.firstChild);
   }
+}
+//render results buttons
+function buttonUp(label, func) {
+  // 1. Create the button
+  var button = document.createElement('button');
+  button.innerHTML = label;
+
+  // 2. Append somewhere
+  picWheel.appendChild(button);
+
+  // 3. Add event handler
+  button.addEventListener('click', func);
 }
 //render results list
 function drawresults() {
+  wipe();
   picWheel.removeEventListener('click', handleClick);
   var secEl = document.createElement('section');
   secEl.id = 'results';
@@ -101,11 +121,13 @@ function drawresults() {
   }
   secEl.appendChild(ulEl);
   picWheel.appendChild(secEl);
-  itsAChartYall();
 }
 //CHHHAAAAAAAAAAAARRRRRRRRRRTTT!
 function itsAChartYall() {
-  var ctx = document.getElementById("chart");
+  var show = document.getElementById('chartResults');
+  show.style.display = 'block';
+  picWheel.parentNode.removeChild(picWheel);
+  var ctx = document.getElementById('chart');
   var chartL = [];
   var chartD = [];
   for (var i = 0; i < products.length; i++) {
@@ -185,5 +207,6 @@ new Product('usb', 'images/usb.gif');
 new Product('waterCan', 'images/water-can.jpg');
 new Product('wineGlass', 'images/wine-glass.jpg');
 render();
+aChartHide();
 
 picWheel.addEventListener('click', handleClick);
