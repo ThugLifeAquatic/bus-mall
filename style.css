@@ -54,15 +54,17 @@ h2 {
 #imgPick {
   height: 485px;
   overflow: hidden;
+  text-align: center;
 }
 
 #imgPick img {
   border-radius: 5px;
   box-shadow: 2px 2px #444;
-  border: 2px solid orange;
+  border: 3px solid orange;
   width: 300px;
   vertical-align: middle;
-  margin: 0px 5px 0px 10px;
+  margin: 0px 5px 0px 5px;
+  transition: 100ms;
 }
 
 #imgPick img:hover {
@@ -73,7 +75,7 @@ h2 {
 }
 
 #results {
-  background:#777;
+  background: #777;
   line-height: 25px;
   text-align: center;
   width: 480px;
@@ -92,17 +94,37 @@ h2 {
 }
 
 #results li {
-  font-size:120%;
+  font-size: 120%;
   font-weight: bold;
 }
 
-#chartResults #chart{
-  background:white;
-  width:900px;
+#chart {
+  background: white;
+  width: 900px;
   margin: 0 auto;
   padding: 10px;
   border-radius: 5px;
   box-shadow: 2px 2px #444;
   border: 3px solid orange;
   margin-bottom: 30px;
+}
+
+button {
+  border-radius: 5px;
+  font-size: 120%;
+  margin: 0px auto;
+  width: 150px;
+  height: 100px;
+  margin-top: 150px;
+  margin-right: 30px;
+  box-shadow: 2px 2px #444;
+  border: 3px solid orange;
+  transition: 100ms;
+}
+
+button:hover {
+  width: 156px;
+  box-shadow: 5px 5px #444;
+  cursor: pointer;
+  border: none;
 }
