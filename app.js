@@ -122,7 +122,7 @@ function drawresults() {
   secEl.appendChild(ulEl);
   picWheel.appendChild(secEl);
 }
-//CHHHAAAAAAAAAAAARRRRRRRRRRTTT!
+//generate chart
 function itsAChartYall() {
   var show = document.getElementById('chartResults');
   show.style.display = 'block';
