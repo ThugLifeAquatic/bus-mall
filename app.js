@@ -10,6 +10,43 @@ var prodNew = [];
 //image container
 var picWheel = document.getElementById('imgPick');
 
+function checkStorage() {
+  if (localStorage.length === 0) {
+    new Product('bag', 'images/bag.jpg');
+    new Product('banana', 'images/banana.jpg');
+    new Product('bathroom', 'images/bathroom.jpg');
+    new Product('boots', 'images/boots.jpg');
+    new Product('breakfast', 'images/breakfast.jpg');
+    new Product('bubblegum', 'images/bubblegum.jpg');
+    new Product('chair', 'images/chair.jpg');
+    new Product('cthulhu', 'images/cthulhu.jpg');
+    new Product('dogduck', 'images/dog-duck.jpg');
+    new Product('dragon', 'images/dragon.jpg');
+    new Product('pen', 'images/pen.jpg');
+    new Product('petSweep', 'images/pet-sweep.jpg');
+    new Product('scissors', 'images/scissors.jpg');
+    new Product('shark', 'images/shark.jpg');
+    new Product('sweep', 'images/sweep.png');
+    new Product('tauntaun', 'images/tauntaun.jpg');
+    new Product('unicorn', 'images/unicorn.jpg');
+    new Product('usb', 'images/usb.gif');
+    new Product('waterCan', 'images/water-can.jpg');
+    new Product('wineGlass', 'images/wine-glass.jpg');
+  } else {
+    pullStorage();
+  }
+}
+
+function pushStorage() {
+  var protoAll = JSON.stringify(products);
+  localStorage.setItem('all', protoAll);
+}
+
+function pullStorage() {
+  var protoAll = localStorage.getItem('all');
+  products = JSON.parse(protoAll);
+}
+
 //hide chart section
 function aChartHide() {
   var hide = document.getElementById('chartResults');
@@ -70,9 +107,11 @@ function handleClick(event) {
     calcConversion();
     buttonUp('LIST', drawresults);
     buttonUp('CHART', itsAChartYall);
+    pushStorage();
     picWheel.removeEventListener('click', handleClick);
   } else {
     calcConversion();
+    pushStorage();
     render();
   }
 }
@@ -185,27 +224,7 @@ function itsAChartYall() {
     }
   });
 }
-
-new Product('bag', 'images/bag.jpg');
-new Product('banana', 'images/banana.jpg');
-new Product('bathroom', 'images/bathroom.jpg');
-new Product('boots', 'images/boots.jpg');
-new Product('breakfast', 'images/breakfast.jpg');
-new Product('bubblegum', 'images/bubblegum.jpg');
-new Product('chair', 'images/chair.jpg');
-new Product('cthulhu', 'images/cthulhu.jpg');
-new Product('dogduck', 'images/dog-duck.jpg');
-new Product('dragon', 'images/dragon.jpg');
-new Product('pen', 'images/pen.jpg');
-new Product('petSweep', 'images/pet-sweep.jpg');
-new Product('scissors', 'images/scissors.jpg');
-new Product('shark', 'images/shark.jpg');
-new Product('sweep', 'images/sweep.png');
-new Product('tauntaun', 'images/tauntaun.jpg');
-new Product('unicorn', 'images/unicorn.jpg');
-new Product('usb', 'images/usb.gif');
-new Product('waterCan', 'images/water-can.jpg');
-new Product('wineGlass', 'images/wine-glass.jpg');
+checkStorage();
 render();
 aChartHide();
 
