@@ -121,7 +121,7 @@ function calcConversion() {
     if (products[i].views === 0) {
       products[i].conversion = 'NA';
     } else {
-      products[i].conversion = products[i].clicks / products[i].views;
+      products[i].conversion = (products[i].clicks / products[i].views) * 100;
     }
   }
 }
@@ -167,11 +167,14 @@ function itsAChartYall() {
   show.style.display = 'block';
   picWheel.parentNode.removeChild(picWheel);
   var ctx = document.getElementById('chart');
+  var ctxC = document.getElementById('chartCV');
   var chartL = [];
   var chartD = [];
+  var chartC = [];
   for (var i = 0; i < products.length; i++) {
     chartL.push(products[i].name);
     chartD.push(products[i].clicks);
+    chartC.push(products[i].conversion);
   }
   var myChart = new Chart(ctx, {
     type: 'bar',
@@ -180,6 +183,56 @@ function itsAChartYall() {
       datasets: [{
         label: '# of Clicks',
         data: chartD,
+        backgroundColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)'
+        ],
+        borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
+  var myChartC = new Chart(ctxC, {
+    type: 'bar',
+    data: {
+      labels: chartL,
+      datasets: [{
+        label: 'Conversion Rate',
+        data: chartC,
         backgroundColor: [
           'rgba(255, 99, 132, 1)',
           'rgba(54, 162, 235, 1)',
