@@ -1,4 +1,5 @@
 'use strict';
+//LIVE_VERSION
 //total click counter
 var totalClicks = 0;
 //all products
